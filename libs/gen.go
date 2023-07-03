@@ -112,6 +112,11 @@ func genTerraformForV1(slos map[string]*SLOMultiVerse, c GenConf) error {
 			// handle sumologic specific stuff
 			if sumologic.IsSource(*slo) {
 				sloStr, monitorsStr, err = sumologic.GiveTerraform(alertPolicyMap, notificationTargetMap, *slo)
+
+				srvList := GiveKeys(srvMap)
+				sort.Strings(srvList)
+
+				GenSLOFoldersTF(srvList, c)
 			}
 
 			// handle datadog specific stuff
@@ -133,11 +138,6 @@ func genTerraformForV1(slos map[string]*SLOMultiVerse, c GenConf) error {
 			}
 		}
 	}
-
-	srvList := GiveKeys(srvMap)
-	sort.Strings(srvList)
-
-	GenSLOFoldersTF(srvList, c)
 
 	return nil
 }
