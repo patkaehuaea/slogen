@@ -1,0 +1,16 @@
+resource "datadog_service_level_objective" "{{ .TFResourceName }}" {
+  name        = "{{.Name}}"
+  type        = "metric"
+  description = "{{.Description}}"
+  query {
+    numerator   = "sum:my.custom.count.metric{type:good_events}.as_count()"
+    denominator = "sum:my.custom.count.metric{*}.as_count()"
+  }
+
+  thresholds {
+    timeframe = "{{.Thresholds.Timeframe}}"
+    target    = "{{.Thresholds.Target}}"
+  }
+
+  tags = [{{.Tags}}]
+}

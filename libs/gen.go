@@ -10,6 +10,7 @@ import (
 	"text/template"
 
 	oslo "github.com/OpenSLO/oslo/pkg/manifest/v1"
+	"github.com/OpenSLO/slogen/libs/datadog"
 	"github.com/OpenSLO/slogen/libs/specs"
 	"github.com/OpenSLO/slogen/libs/sumologic"
 )
@@ -111,6 +112,14 @@ func genTerraformForV1(slos map[string]*SLOMultiVerse, c GenConf) error {
 			// handle sumologic specific stuff
 			if sumologic.IsSource(*slo) {
 				sloStr, monitorsStr, err = sumologic.GiveTerraform(alertPolicyMap, notificationTargetMap, *slo)
+			}
+
+			// handle datadog specific stuff
+			if datadog.IsSource(*slo) {
+				sloStr, err = datadog.GiveTerraform(alertPolicyMap, notificationTargetMap, *slo)
+				if err != nil {
+					return err
+				}
 			}
 
 			err = os.WriteFile(filepath.Join(v1Path, fmt.Sprintf("slo_%s.tf", slo.Metadata.Name)), []byte(sloStr), 0755)

@@ -1,0 +1,40 @@
+apiVersion: openslo/v1
+kind: SLO
+metadata:
+  name: foo-slo
+  displayName: Foo SLO
+  labels:
+    organization: foo
+    team: bar
+    tools:
+      - shovel
+      - axe
+      - hammer
+spec:
+  service: foo
+  description: "this is my foo SLO"
+  timeWindow:
+    - duration: 30d
+      isRolling: true
+  indicator:
+    metadata:
+      name: foo-error
+      displayName: Foo Error
+    spec:
+      ratioMetric:
+        counter: true
+        good:
+          metricSource:
+            metricSourceRef: datadog-datasource
+            type: datadog-metrics
+            spec:
+              query: sum:trace.http.request.hits.by_http_status{http.status_code:200}.as_count()
+        total:
+          metricSource:
+            metricSourceRef: datadog-datasource
+            type: datadog-metrics
+            spec:
+              query: sum:trace.http.request.hits.by_http_status{*}.as_count()
+  objectives:
+    - displayName: Foo Total Errors
+      target: 0.98
