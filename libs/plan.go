@@ -2,15 +2,18 @@ package libs
 
 import (
 	"context"
+	"io/ioutil"
+	"os"
+
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hc-install/product"
 	tfreleases "github.com/hashicorp/hc-install/releases"
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"io/ioutil"
-	"os"
 )
 
 const (
+	EnvKeyDatadogAPIKey   = "DD_API_KEY"
+	EnvKeyDatadogAPPKey   = "DD_APP_KEY"
 	EnvKeySumoAccessID    = "SUMOLOGIC_ACCESSID"
 	EnvKeySumoAccessKey   = "SUMOLOGIC_ACCESSKEY"
 	EnvKeySumoEnvironment = "SUMOLOGIC_ENVIRONMENT"
@@ -53,6 +56,8 @@ func TFExec(wdPath string, action TFAction) error {
 	env := map[string]string{
 		EnvKeyHTTPProxy:       os.Getenv(EnvKeyHTTPProxy),
 		EnvKeyHTTPSProxy:      os.Getenv(EnvKeyHTTPSProxy),
+		EnvKeyDatadogAPIKey:   os.Getenv(EnvKeyDatadogAPIKey),
+		EnvKeyDatadogAPPKey:   os.Getenv(EnvKeyDatadogAPPKey),
 		EnvKeySumoAccessID:    os.Getenv(EnvKeySumoAccessID),
 		EnvKeySumoAccessKey:   os.Getenv(EnvKeySumoAccessKey),
 		EnvKeySumoEnvironment: os.Getenv(EnvKeySumoEnvironment),
