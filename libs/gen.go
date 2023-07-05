@@ -277,7 +277,8 @@ func SetupOutDir(c GenConf) error {
 
 	if c.OnlyNative {
 		modules = []TFModules{
-			{Path: filepath.Join(c.OutDir, NativeSLOFolder), Vars: []string{VarNameNativeSLORootFolder, VarNameSLOMonitorRootFolder}},
+			// {Path: filepath.Join(c.OutDir, NativeSLOFolder), Vars: []string{VarNameNativeSLORootFolder, VarNameSLOMonitorRootFolder}},
+			{Path: filepath.Join(c.OutDir, NativeSLOFolder), Vars: nil},
 		}
 	} else {
 		modules = []TFModules{

@@ -3,27 +3,11 @@ terraform {
         datadog = {
             source = "DataDog/datadog"
         }
-        sumologic = {
-            source = "sumologic/sumologic"
-        }
     }
-}
-
-
-resource "sumologic_slo_folder" "slo_root_folder" {
-    name        = "{{.SLORootFolder}}"
-    description = "Root folder for native SLOs created with slogen"
-}
-
-resource "sumologic_monitor_folder" "slo_monitor_root_folder" {
-    name        = "{{.SLOMonitorRootFolder}}"
-    description = "Root folder for SLO based monitors created with slogen"
 }
 
 module "slos" {
     source                    = "./slos"
-    slo_root_folder_id = sumologic_slo_folder.slo_root_folder.id
-    slo_monitor_root_folder_id = sumologic_monitor_folder.slo_monitor_root_folder.id
 }
 
 
