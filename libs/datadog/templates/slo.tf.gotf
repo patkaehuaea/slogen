@@ -3,8 +3,8 @@ resource "datadog_service_level_objective" "{{ .TFResourceName }}" {
   type        = "metric"
   description = "{{.Description}}"
   query {
-    numerator   = "sum:my.custom.count.metric{type:good_events}.as_count()"
-    denominator = "sum:my.custom.count.metric{*}.as_count()"
+    numerator   = "{{.Query.Numerator}}"
+    denominator = "{{.Query.Denominator}}"
   }
 
   thresholds {
